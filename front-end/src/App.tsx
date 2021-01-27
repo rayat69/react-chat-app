@@ -8,13 +8,15 @@ interface Chat {
   name: String;
 }
 
-const socket: SocketIOClient.Socket = io.connect("http://localhost:4321");
+console.log(window.location.origin);
+
+const socket: SocketIOClient.Socket = io.connect(
+  "https://react-yoyo-chat-app.herokuapp.com"
+);
 
 const App: React.FC = () => {
   const [state, setState] = useState({ message: "", name: "" });
-  const [chat, setChat] = useState<Chat[]>([
-    { message: "sfsf", name: "sfsdf" },
-  ]);
+  const [chat, setChat] = useState<Chat[]>([]);
 
   useEffect(() => {
     socket.on("message", (param: { name: String; message: String }) => {
@@ -26,7 +28,7 @@ const App: React.FC = () => {
       setChat([...chat, { name, message }]);
     });
   }, [chat]);
-  
+
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     console.log(state);
 
